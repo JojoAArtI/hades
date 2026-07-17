@@ -1,16 +1,19 @@
 import gsap from "gsap";
 
 const widgets = [
-  { image: "https://images.ctfassets.net/5owu3y35gzlg/3m6R8B2VKMGaUMcScu/76b7cc05349b20feb08798d2742e8fe9/Hades_Wallpaper_01.jpg?w=1920&q=80", name: "Hades" },
-  { image: "https://images.ctfassets.net/5owu3y35gzlg/8uJUGhLg0DuryCmwfpNxn/464c0a5a8c92e7ec832a5cbab006a204/OlympianMontage_Ares.png?w=1920&q=80", name: "Ares" },
-  { image: "https://images.ctfassets.net/5owu3y35gzlg/3fLSb2zxHUTbkYZGFYTNPG/533d81c59e6b50e42d6061b794f358c6/OlympianMontage_Aphrodite.png?w=1920&q=80", name: "Aphrodite" },
-  { image: "https://images.ctfassets.net/5owu3y35gzlg/7HIIJhnHi3687DxlBSJCBG/66ea7dbdella6fca00b67fb4f34ee6c9/OlympianMontage_Poseidon.png?w=1920&q=80", name: "Poseidon" },
-  { image: "https://images.ctfassets.net/5owu3y35gzlg/2CMty6efAYQv7ZeZLFjwrm/44664a67eb0275d5ac7db82502dcc992/Hades_Post_Chaos01.jpg?w=1920&q=80", name: "Chaos" },
-  { image: "https://images.ctfassets.net/5owu3y35gzlg/5anCg0MZftCrB2UFJFWdH3/c47fb130b5195c35dac221aa4027f04f/Hades_Post_Dionysus01.jpg?w=1920&q=80", name: "Dionysus" },
-  { image: "https://images.ctfassets.net/5owu3y35gzlg/3sh018m9CmTFNXgIM6aAR1/11aae8931cc2a433c707d92d41fd6026/Hades_Post_Alecto.png?w=1920&q=80", name: "Alecto" },
-  { image: "https://images.ctfassets.net/5owu3y35gzlg/1Y5EEF9f6zuXp3M4gdgPLE/4b97d0940ab5025ff0905ea7af0c4d51/Hades_Post_Thanatos.png?w=1920&q=80", name: "Thanatos" },
-  { image: "https://images.ctfassets.net/5owu3y35gzlg/40vUf2b1xp2NFYvnE5lDSk/07f3295d761ad2671de98f531a0c75cc/Hades_Post_Tisiphone.png?w=1920&q=80", name: "Tisiphone" },
-  { image: "https://images.ctfassets.net/5owu3y35gzlg/6P0styYvRwT6b978Vg0E0k/b5e4f307763c9c021dd7dc5326c6450f/Wallpaper_3.png?w=1920&q=80", name: "Wallpaper 3" },
+  { image: "/Blood_Post_01.png", name: "BloodPost" },
+  { image: "/herc.png", name: "Hercules" },
+  { image: "/hermes.png", name: "hermes" },
+  { image: "/night_Post_01.jpg", name: "nyx" },
+  { image: "/Hades_Post_Thanatos.png", name: "Thanatos" },
+
+  { image: "/Hades_Post_Chaos01.jpg", name: "Chaos" },
+
+  { image: "/Hades_Post_Alecto.png", name: "Alecto" },
+
+  { image: "/Hades_Post_Dionysus01.jpg", name: "Dionysus" },
+  { image: "/Sisyphus.png", name: "Sisyphus" },
+  { image: "/Hades_Superstar_WP1.png", name: "Superstar" },
 ];
 
 const lerp = (a, b, t) => a + (b - a) * t;
