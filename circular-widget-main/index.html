@@ -7,10 +7,109 @@
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
+<<<<<<< Updated upstream
     <section class="widgets">
       <div class="widget-preview-img"></div>
       <div class="widget-title"></div>
     </section>
+=======
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <h1 class="logo">HADES</h1>
+        <span class="sub-logo">UNDERWORLD</span>
+      </div>
+      <ul class="nav-links">
+        <li><button class="nav-btn active" data-page="home">HOME</button></li>
+        <li><button class="nav-btn" data-page="story">STORY</button></li>
+        <li><button class="nav-btn" data-page="characters">CHARACTERS</button></li>
+      </ul>
+      <div class="sidebar-footer">
+        <p>SUPERGIANT GAMES</p>
+        <p class="footer-sub">DATABASE V.01</p>
+      </div>
+    </nav>
+
+    <main class="content-container">
+      <!-- Home Page -->
+      <section id="page-home" class="page-section">
+        <div class="home-bg-container">
+          <img src="/Hades_Launch.png" alt="Hades Launch Background" class="home-bg-image" />
+          <div class="home-bg-overlay"></div>
+        </div>
+        <div class="hero-content">
+          <div class="hero-tag">// ARCHIVE SECTION 00</div>
+          <h2 class="hero-title">THERE IS NO ESCAPE</h2>
+          <p class="hero-desc">
+            Defy the god of the dead as you hack and slash out of the Underworld in this rogue-like dungeon crawler from the creators of Bastion and Transistor.
+          </p>
+          <div class="hero-cta">
+            <button class="cta-btn btn-primary" onclick="document.querySelector('[data-page=characters]').click()">ACCESS DATABASE</button>
+            <a href="https://www.supergiantgames.com/games/hades/" target="_blank" class="cta-btn btn-secondary">OFFICIAL SITE</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Story Page -->
+      <section id="page-story" class="page-section hidden">
+        <div class="story-scroll-container">
+          
+          <!-- Story Intro -->
+          <div class="story-intro">
+            <span class="section-tag">// HISTORICAL RECORD 01</span>
+            <h1 class="story-main-title">THE ESCAPE</h1>
+            <p class="animate-text">
+              Deep beneath the mortal realm lies the domain of Hades. Zagreus, the rebellious Prince of the Underworld, is determined to fight his way through the shifting chambers of his father's house to discover the secrets of his past.
+            </p>
+          </div>
+
+          <!-- The Realms Slide Animation (similar to .services) -->
+          <div class="realms-section">
+            <div class="realm-panel" data-realm="TARTARUS">
+              <span class="realm-num">STAGE 01</span>
+              <h2>TARTARUS</h2>
+            </div>
+            <div class="realm-panel" data-realm="ASPHODEL">
+              <span class="realm-num">STAGE 02</span>
+              <h2>ASPHODEL</h2>
+            </div>
+            <div class="realm-panel" data-realm="ELYSIUM">
+              <span class="realm-num">STAGE 03</span>
+              <h2>ELYSIUM</h2>
+            </div>
+          </div>
+
+          <!-- Story Midtro -->
+          <div class="story-midtro">
+            <h1 class="animate-text">
+              Helped by the Olympians who offer powerful boons, Zagreus battles shades and monsters. Yet, the final barrier is his own father, the Lord of the Dead, standing at the threshold of the surface.
+            </h1>
+          </div>
+
+          <!-- Outro / Underworld Gate -->
+          <div class="story-outro">
+            <div class="outro-gate">
+              <img src="/Blood_Post_01.png" alt="Underworld Gate" class="outro-img" />
+              <div class="outro-text">
+                <span class="section-tag">// ARCHIVE COMPLETION</span>
+                <h3>DEATH IS NOT THE END</h3>
+                <p>Every failure returns him to the House of Hades. Every return is a chance to grow, converse, and try once more.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Characters Page (Existing Circular Widget) -->
+      <section id="page-characters" class="page-section hidden">
+        <section class="widgets">
+          <div class="widget-preview-img"></div>
+          <div class="widget-title"></div>
+        </section>
+      </section>
+    </main>
+
+>>>>>>> Stashed changes
     <script type="module" src="/script.js"></script>
   </body>
 </html>

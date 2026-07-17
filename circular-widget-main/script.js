@@ -1,4 +1,7 @@
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const widgets = [
   { image: "/Blood_Post_01.png", name: "BloodPost" },
@@ -198,5 +201,115 @@ window.addEventListener("resize", () => {
     x2: centerX,
     y2: centerY - outerRadius * 1.05,
   });
+<<<<<<< Updated upstream
   svg.appendChild(widgetIndicator);
 });
+=======
+  if (svg) {
+    svg.appendChild(widgetIndicator);
+  }
+};
+
+window.addEventListener("resize", handleResize);
+
+// Navigation system
+const setupNavigation = () => {
+  const navBtns = document.querySelectorAll(".nav-btn");
+  const pages = document.querySelectorAll(".page-section");
+
+  navBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const targetPage = btn.getAttribute("data-page");
+
+      navBtns.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      pages.forEach((page) => {
+        if (page.id === `page-${targetPage}`) {
+          page.classList.remove("hidden");
+        } else {
+          page.classList.add("hidden");
+        }
+      });
+
+      if (targetPage === "characters") {
+        handleResize();
+      }
+
+      // Refresh ScrollTrigger calculations when tabs toggle
+      ScrollTrigger.refresh();
+    });
+  });
+};
+
+// Scroll Animations for Story Page
+const initScrollAnimations = () => {
+  // Animate text reveal (clip-path reveal on scroll)
+  document.querySelectorAll('#page-story .animate-text').forEach(textElement => {
+    textElement.setAttribute('data-text', textElement.textContent.trim());
+
+    ScrollTrigger.create({
+      trigger: textElement,
+      scroller: "#page-story",
+      start: 'top 75%',
+      end: 'bottom 45%',
+      scrub: 1,
+      onUpdate: self => {
+        const clipValue = Math.max(0, 100 - self.progress * 100);
+        textElement.style.setProperty('--clip-value', `${clipValue}%`);
+      },
+    });
+  });
+
+  // Realms slide-in from sides (Tartarus, Asphodel, Elysium)
+  ScrollTrigger.create({
+    trigger: '.realms-section',
+    scroller: '#page-story',
+    start: 'top bottom',
+    end: 'top top',
+    scrub: 1,
+    onUpdate: self => {
+      const panels = document.querySelectorAll('.realm-panel');
+      if (panels.length >= 3) {
+        gsap.set(panels[0], { x: `${100 - self.progress * 100}%` });
+        gsap.set(panels[1], { x: `${-100 + self.progress * 100}%` });
+        gsap.set(panels[2], { x: `${100 - self.progress * 100}%` });
+      }
+    },
+  });
+
+  // Realms pin and scale down on scroll
+  ScrollTrigger.create({
+    trigger: '.realms-section',
+    scroller: '#page-story',
+    start: 'top top',
+    end: () => `+=${window.innerHeight * 1.5}`,
+    pin: true,
+    scrub: 1,
+    pinSpacing: true,
+    onUpdate: self => {
+      const panels = document.querySelectorAll('.realm-panel');
+      if (panels.length >= 3) {
+        if (self.progress <= 0.5) {
+          const yProgress = self.progress / 0.5;
+          gsap.set(panels[0], { y: `${yProgress * 100}%` });
+          gsap.set(panels[2], { y: `${yProgress * -100}%` });
+          gsap.set(panels[1], { scale: 1 });
+        } else {
+          gsap.set(panels[0], { y: '100%' });
+          gsap.set(panels[2], { y: '-100%' });
+
+          const scaleProgress = (self.progress - 0.5) / 0.5;
+          const minScale = window.innerWidth <= 1000 ? 0.45 : 0.25;
+          const scale = 1 - scaleProgress * (1 - minScale);
+
+          panels.forEach(panel => gsap.set(panel, { scale }));
+        }
+      }
+    },
+  });
+};
+
+setupNavigation();
+initScrollAnimations();
+>>>>>>> Stashed changes

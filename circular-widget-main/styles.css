@@ -27,7 +27,344 @@ img {
   top: 0;
   left: 0;
   width: 100%;
+<<<<<<< Updated upstream
   height: 100svh;
+=======
+}
+
+.nav-btn::before {
+  content: "// ";
+  color: var(--light);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.nav-btn.active::before,
+.nav-btn:hover::before {
+  opacity: 1;
+}
+
+.nav-btn.active,
+.nav-btn:hover {
+  color: var(--light);
+  font-weight: bold;
+}
+
+.sidebar-footer {
+  font-size: 0.65rem;
+  color: #fff;
+  opacity: 0.4;
+  letter-spacing: 2px;
+  line-height: 1.6;
+}
+
+.footer-sub {
+  color: var(--light);
+}
+
+.content-container {
+  margin-left: 320px;
+  width: calc(100vw - 320px);
+  height: 100vh;
+  position: relative;
+  background-color: var(--dark);
+  overflow: hidden;
+}
+
+.page-section {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.page-section.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Home Page Content */
+/* Home Page Background */
+.home-bg-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.home-bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Removed dimming/desaturation to make the picture the main highlight */
+}
+
+.home-bg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Only apply dark gradient on the left side to preserve text legibility while keeping the rest of the picture fully bright and clear */
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.3) 40%, transparent 80%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 650px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: fadeInUp 0.8s ease;
+  margin-right: auto;
+}
+
+.hero-tag, .section-tag {
+  color: var(--light);
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 2px;
+  line-height: 1.1;
+}
+
+.hero-desc {
+  color: #ccc;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.cta-btn {
+  font-family: inherit;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--light);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: var(--light);
+  color: var(--dark);
+  font-weight: bold;
+}
+
+.btn-primary:hover {
+  background-color: transparent;
+  color: var(--light);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-secondary:hover {
+  border-color: var(--light);
+  color: var(--light);
+}
+
+/* Story Page Content */
+#page-story.page-section {
+  display: block;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0;
+  height: 100%;
+}
+
+.story-scroll-container {
+  width: 100%;
+  position: relative;
+}
+
+.story-intro,
+.story-midtro {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem;
+  position: relative;
+}
+
+.story-main-title {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 6px;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Text Reveal Animation */
+.animate-text {
+  position: relative;
+  width: 75%;
+  max-width: 800px;
+  margin: 0 auto;
+  color: rgba(255, 255, 255, 0.15);
+  --clip-value: 100%;
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.4;
+  text-align: center;
+  letter-spacing: -0.5px;
+}
+
+.animate-text::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  clip-path: inset(0 0 var(--clip-value) 0);
+  will-change: clip-path;
+}
+
+/* Realms Sliding Section */
+.realms-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: var(--dark);
+}
+
+.realm-panel {
+  position: relative;
+  width: 100%;
+  padding: 2.5rem 4rem;
+  background-color: var(--dark);
+  border-top: 1px solid rgba(255, 255, 43, 0.25);
+  border-bottom: 1px solid rgba(255, 255, 43, 0.25);
+  will-change: transform;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.realm-panel:nth-child(1),
+.realm-panel:nth-child(3) {
+  transform: translateX(100%) translateY(0%);
+}
+
+.realm-panel:nth-child(2) {
+  transform: translateX(-100%) translateY(0%);
+  z-index: 2;
+}
+
+.realm-num {
+  font-size: 0.85rem;
+  color: var(--light);
+  font-weight: bold;
+  letter-spacing: 3px;
+}
+
+.realm-panel h2 {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 8px;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
+
+/* Story Outro Section */
+.story-outro {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem;
+}
+
+.outro-gate {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  max-width: 1000px;
+  width: 100%;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 43, 0.2);
+  padding: 3rem;
+  background-color: rgba(255, 255, 255, 0.01);
+}
+
+.outro-img {
+  width: 100%;
+  height: auto;
+  max-height: 450px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.outro-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.outro-text h3 {
+  font-size: 2rem;
+  color: #fff;
+  letter-spacing: 2px;
+}
+
+.outro-text p {
+  color: #aaa;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+/* Characters (Widget) Page Override */
+.widgets {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+>>>>>>> Stashed changes
   overflow: hidden;
 }
 
@@ -72,3 +409,94 @@ img {
   stroke-width: 3;
   stroke-linecap: round;
 }
+<<<<<<< Updated upstream
+=======
+
+/* Keyframe Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Rules */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 43, 0.25);
+    padding: 1.5rem;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .sidebar-header {
+    margin-bottom: 0;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+  }
+
+  .nav-links {
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .nav-btn {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .sidebar-footer {
+    display: none;
+  }
+
+  .content-container {
+    margin-left: 0;
+    width: 100%;
+    height: calc(100vh - 80px); /* Height of header */
+  }
+
+  .page-section {
+    padding: 2rem;
+    overflow-y: auto;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .story-main-title {
+    font-size: 2.5rem;
+  }
+
+  .animate-text {
+    font-size: 1.5rem;
+    width: 90%;
+  }
+
+  .realm-panel h2 {
+    font-size: 2.2rem;
+    letter-spacing: 4px;
+  }
+
+  .outro-gate {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 1.5rem;
+  }
+  
+  .widget-preview-img img {
+    object-position: center; /* Center on mobile since there is no left sidebar space */
+  }
+}
+>>>>>>> Stashed changes
