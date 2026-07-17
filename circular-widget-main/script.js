@@ -181,15 +181,21 @@ animate();
 window.addEventListener(
   "wheel",
   (e) => {
-    e.preventDefault();
-    const delta = e.deltaY * 0.05;
-    targetIndicatorRotation += delta;
-    targetSpinnerRotation -= delta;
+    // Only prevent default and rotate widget if characters page is active
+    const activeBtn = document.querySelector(".nav-btn.active");
+    const activePage = activeBtn ? activeBtn.getAttribute("data-page") : "";
+
+    if (activePage === "characters") {
+      e.preventDefault();
+      const delta = e.deltaY * 0.05;
+      targetIndicatorRotation += delta;
+      targetSpinnerRotation -= delta;
+    }
   },
   { passive: false }
 );
 
-window.addEventListener("resize", () => {
+const handleResize = () => {
   if (svg) svg.remove();
   createWidgetSpinner();
 
@@ -201,10 +207,6 @@ window.addEventListener("resize", () => {
     x2: centerX,
     y2: centerY - outerRadius * 1.05,
   });
-<<<<<<< Updated upstream
-  svg.appendChild(widgetIndicator);
-});
-=======
   if (svg) {
     svg.appendChild(widgetIndicator);
   }
@@ -312,4 +314,3 @@ const initScrollAnimations = () => {
 
 setupNavigation();
 initScrollAnimations();
->>>>>>> Stashed changes
