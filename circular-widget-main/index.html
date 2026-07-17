@@ -3,14 +3,80 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Scroll-Powered Circular Widgets </title>
+    <title>HADES — Underworld Database</title>
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <section class="widgets">
-      <div class="widget-preview-img"></div>
-      <div class="widget-title"></div>
-    </section>
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <h1 class="logo">HADES</h1>
+        <span class="sub-logo">UNDERWORLD</span>
+      </div>
+      <ul class="nav-links">
+        <li><button class="nav-btn active" data-page="home">HOME</button></li>
+        <li><button class="nav-btn" data-page="story">STORY</button></li>
+        <li><button class="nav-btn" data-page="characters">CHARACTERS</button></li>
+      </ul>
+      <div class="sidebar-footer">
+        <p>SUPERGIANT GAMES</p>
+        <p class="footer-sub">DATABASE V.01</p>
+      </div>
+    </nav>
+
+    <main class="content-container">
+      <!-- Home Page -->
+      <section id="page-home" class="page-section">
+        <div class="home-bg-container">
+          <img src="/Hades_Launch.png" alt="Hades Launch Background" class="home-bg-image" />
+          <div class="home-bg-overlay"></div>
+        </div>
+        <div class="hero-content">
+          <div class="hero-tag">// ARCHIVE SECTION 00</div>
+          <h2 class="hero-title">THERE IS NO ESCAPE</h2>
+          <p class="hero-desc">
+            Defy the god of the dead as you hack and slash out of the Underworld in this rogue-like dungeon crawler from the creators of Bastion and Transistor.
+          </p>
+          <div class="hero-cta">
+            <button class="cta-btn btn-primary" onclick="document.querySelector('[data-page=characters]').click()">ACCESS DATABASE</button>
+            <a href="https://www.supergiantgames.com/games/hades/" target="_blank" class="cta-btn btn-secondary">OFFICIAL SITE</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Story Page -->
+      <section id="page-story" class="page-section hidden">
+        <div class="story-content">
+          <div class="section-tag">// ARCHIVE SECTION 01</div>
+          <h2 class="section-title">THE STORY</h2>
+          <div class="story-grid">
+            <div class="story-card">
+              <span class="card-num">I.</span>
+              <h3>THE REBELLIOUS PRINCE</h3>
+              <p>Zagreus, the rebellious prince of the Underworld, seeks to escape the domain of his stifling father, Hades, to find his long-lost mother, Persephone, in the mortal world.</p>
+            </div>
+            <div class="story-card">
+              <span class="card-num">II.</span>
+              <h3>OLYMPIAN AID</h3>
+              <p>Recognizing his struggle, the mighty Olympians lend their strength, offering powerful Boons to assist Zagreus on his hazardous journey through the depths of hell.</p>
+            </div>
+            <div class="story-card">
+              <span class="card-num">III.</span>
+              <h3>DEATH AND REBIRTH</h3>
+              <p>Each failed escape attempt only returns Zagreus to the House of Hades, where he grows stronger, learns more secrets, and prepares to try again. Death is but a temporary setback.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Characters Page (Existing Circular Widget) -->
+      <section id="page-characters" class="page-section hidden">
+        <section class="widgets">
+          <div class="widget-preview-img"></div>
+          <div class="widget-title"></div>
+        </section>
+      </section>
+    </main>
+
     <script type="module" src="/script.js"></script>
   </body>
 </html>

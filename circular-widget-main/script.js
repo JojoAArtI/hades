@@ -37,10 +37,19 @@ let lastSegmentIndex = -1;
 
 const createWidgetSpinner = () => {
   const container = document.querySelector(".widgets");
-  const viewportSize = Math.min(window.innerWidth, window.innerHeight);
+  if (!container) return;
+
+  const sidebar = document.querySelector(".sidebar");
+  let sidebarWidth = 0;
+  if (window.innerWidth >= 768 && sidebar) {
+    sidebarWidth = sidebar.getBoundingClientRect().width;
+  }
+
+  const availableWidth = window.innerWidth - sidebarWidth;
+  const viewportSize = Math.min(availableWidth, window.innerHeight);
   outerRadius = viewportSize * 0.4;
   const innerRadius = viewportSize * 0.25;
-  centerX = window.innerWidth / 2;
+  centerX = availableWidth / 2;
   centerY = window.innerHeight / 2;
 
   svg = createSVG("svg", { id: "widget-svg" });
@@ -106,22 +115,26 @@ const updateContent = () => {
   if (segmentIndex !== lastSegmentIndex) {
     lastSegmentIndex = segmentIndex;
 
-    document.querySelector(".widget-title").textContent =
-      widgets[segmentIndex].name;
+    const titleEl = document.querySelector(".widget-title");
+    if (titleEl) {
+      titleEl.textContent = widgets[segmentIndex].name;
+    }
 
     const previewContainer = document.querySelector(".widget-preview-img");
-    const img = document.createElement("img");
-    img.src = widgets[segmentIndex].image;
-    img.alt = widgets[segmentIndex].name;
+    if (previewContainer) {
+      const img = document.createElement("img");
+      img.src = widgets[segmentIndex].image;
+      img.alt = widgets[segmentIndex].name;
 
-    gsap.set(img, { opacity: 0 });
-    previewContainer.appendChild(img);
-    gsap.to(img, { opacity: 1, duration: 0.1, ease: "power2.out" });
+      gsap.set(img, { opacity: 0 });
+      previewContainer.appendChild(img);
+      gsap.to(img, { opacity: 1, duration: 0.1, ease: "power2.out" });
 
-    const allImages = previewContainer.querySelectorAll("img");
-    if (allImages.length > 3) {
-      for (let i = 0; i < allImages.length - 3; i++) {
-        previewContainer.removeChild(allImages[i]);
+      const allImages = previewContainer.querySelectorAll("img");
+      if (allImages.length > 3) {
+        for (let i = 0; i < allImages.length - 3; i++) {
+          previewContainer.removeChild(allImages[i]);
+        }
       }
     }
   }
@@ -147,59 +160,100 @@ const animate = () => {
     0.1
   );
 
-  document
-    .getElementById("widget-indicator")
-    .setAttribute(
+  const indicatorEl = document.getElementById("widget-indicator");
+  if (indicatorEl) {
+    indicatorEl.setAttribute(
       "transform",
       `rotate(${currentIndicatorRotation % 360} ${centerX} ${centerY})`
     );
+  }
 
-  svg.querySelectorAll("[data-segment]").forEach((seg) => {
-    seg.setAttribute(
-      "transform",
-      `rotate(${currentSpinnerRotation % 360} ${centerX} ${centerY})`
-    );
-  });
+  if (svg) {
+    svg.querySelectorAll("[data-segment]").forEach((seg) => {
+      seg.setAttribute(
+        "transform",
+        `rotate(${currentSpinnerRotation % 360} ${centerX} ${centerY})`
+      );
+    });
+  }
 
   updateContent();
 
   requestAnimationFrame(animate);
 };
 
-const innerRadius = outerRadius * 0.625;
+const currentInnerRadius = outerRadius * 0.625;
 const widgetIndicator = createSVG("line", {
   id: "widget-indicator",
   x1: centerX,
-  y1: centerY - innerRadius * 0.85,
+  y1: centerY - currentInnerRadius * 0.85,
   x2: centerX,
   y2: centerY - outerRadius * 1.05,
 });
-svg.appendChild(widgetIndicator);
+if (svg) {
+  svg.appendChild(widgetIndicator);
+}
 
 animate();
 
 window.addEventListener(
   "wheel",
   (e) => {
-    e.preventDefault();
-    const delta = e.deltaY * 0.05;
-    targetIndicatorRotation += delta;
-    targetSpinnerRotation -= delta;
+    const charPage = document.getElementById("page-characters");
+    if (charPage && !charPage.classList.contains("hidden")) {
+      e.preventDefault();
+      const delta = e.deltaY * 0.05;
+      targetIndicatorRotation += delta;
+      targetSpinnerRotation -= delta;
+    }
   },
   { passive: false }
 );
 
-window.addEventListener("resize", () => {
+const handleResize = () => {
   if (svg) svg.remove();
   createWidgetSpinner();
 
-  const innerRadius = outerRadius * 0.625;
+  const currentInnerRadius = outerRadius * 0.625;
   const widgetIndicator = createSVG("line", {
     id: "widget-indicator",
     x1: centerX,
-    y1: centerY - innerRadius * 0.85,
+    y1: centerY - currentInnerRadius * 0.85,
     x2: centerX,
     y2: centerY - outerRadius * 1.05,
   });
-  svg.appendChild(widgetIndicator);
-});
+  if (svg) {
+    svg.appendChild(widgetIndicator);
+  }
+};
+
+window.addEventListener("resize", handleResize);
+
+// Navigation system
+const setupNavigation = () => {
+  const navBtns = document.querySelectorAll(".nav-btn");
+  const pages = document.querySelectorAll(".page-section");
+
+  navBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const targetPage = btn.getAttribute("data-page");
+
+      navBtns.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      pages.forEach((page) => {
+        if (page.id === `page-${targetPage}`) {
+          page.classList.remove("hidden");
+        } else {
+          page.classList.add("hidden");
+        }
+      });
+
+      if (targetPage === "characters") {
+        handleResize();
+      }
+    });
+  });
+};
+
+setupNavigation();
