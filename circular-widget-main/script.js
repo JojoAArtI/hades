@@ -1,17 +1,17 @@
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const widgets = [
   { image: "/Blood_Post_01.png", name: "BloodPost" },
   { image: "/herc.png", name: "Hercules" },
   { image: "/hermes.png", name: "hermes" },
   { image: "/night_Post_01.jpg", name: "nyx" },
-  { image: "/Hades_Post_Thanatos.png", name: "Thanatos" },
-
   { image: "/Hades_Post_Chaos01.jpg", name: "Chaos" },
-
-  { image: "/Hades_Post_Alecto.png", name: "Alecto" },
-
   { image: "/Hades_Post_Dionysus01.jpg", name: "Dionysus" },
+  { image: "/Hades_Post_Alecto.png", name: "Alecto" },
+  { image: "/Hades_Post_Thanatos.png", name: "Thanatos" },
   { image: "/Sisyphus.png", name: "Sisyphus" },
   { image: "/Hades_Superstar_WP1.png", name: "Superstar" },
 ];
@@ -37,20 +37,11 @@ let lastSegmentIndex = -1;
 
 const createWidgetSpinner = () => {
   const container = document.querySelector(".widgets");
-  if (!container) return;
-
-  const sidebar = document.querySelector(".sidebar");
-  let sidebarWidth = 0;
-  if (window.innerWidth >= 768 && sidebar) {
-    sidebarWidth = sidebar.getBoundingClientRect().width;
-  }
-
-  const availableWidth = window.innerWidth - sidebarWidth;
-  const viewportSize = Math.min(availableWidth, window.innerHeight);
+  const viewportSize = Math.min(container.clientWidth, container.clientHeight);
   outerRadius = viewportSize * 0.4;
   const innerRadius = viewportSize * 0.25;
-  centerX = availableWidth / 2;
-  centerY = window.innerHeight / 2;
+  centerX = container.clientWidth / 2;
+  centerY = container.clientHeight / 2;
 
   svg = createSVG("svg", { id: "widget-svg" });
   const defs = createSVG("defs");
@@ -115,26 +106,22 @@ const updateContent = () => {
   if (segmentIndex !== lastSegmentIndex) {
     lastSegmentIndex = segmentIndex;
 
-    const titleEl = document.querySelector(".widget-title");
-    if (titleEl) {
-      titleEl.textContent = widgets[segmentIndex].name;
-    }
+    document.querySelector(".widget-title").textContent =
+      widgets[segmentIndex].name;
 
     const previewContainer = document.querySelector(".widget-preview-img");
-    if (previewContainer) {
-      const img = document.createElement("img");
-      img.src = widgets[segmentIndex].image;
-      img.alt = widgets[segmentIndex].name;
+    const img = document.createElement("img");
+    img.src = widgets[segmentIndex].image;
+    img.alt = widgets[segmentIndex].name;
 
-      gsap.set(img, { opacity: 0 });
-      previewContainer.appendChild(img);
-      gsap.to(img, { opacity: 1, duration: 0.1, ease: "power2.out" });
+    gsap.set(img, { opacity: 0 });
+    previewContainer.appendChild(img);
+    gsap.to(img, { opacity: 1, duration: 0.1, ease: "power2.out" });
 
-      const allImages = previewContainer.querySelectorAll("img");
-      if (allImages.length > 3) {
-        for (let i = 0; i < allImages.length - 3; i++) {
-          previewContainer.removeChild(allImages[i]);
-        }
+    const allImages = previewContainer.querySelectorAll("img");
+    if (allImages.length > 3) {
+      for (let i = 0; i < allImages.length - 3; i++) {
+        previewContainer.removeChild(allImages[i]);
       }
     }
   }
@@ -160,47 +147,45 @@ const animate = () => {
     0.1
   );
 
-  const indicatorEl = document.getElementById("widget-indicator");
-  if (indicatorEl) {
-    indicatorEl.setAttribute(
+  document
+    .getElementById("widget-indicator")
+    .setAttribute(
       "transform",
       `rotate(${currentIndicatorRotation % 360} ${centerX} ${centerY})`
     );
-  }
 
-  if (svg) {
-    svg.querySelectorAll("[data-segment]").forEach((seg) => {
-      seg.setAttribute(
-        "transform",
-        `rotate(${currentSpinnerRotation % 360} ${centerX} ${centerY})`
-      );
-    });
-  }
+  svg.querySelectorAll("[data-segment]").forEach((seg) => {
+    seg.setAttribute(
+      "transform",
+      `rotate(${currentSpinnerRotation % 360} ${centerX} ${centerY})`
+    );
+  });
 
   updateContent();
 
   requestAnimationFrame(animate);
 };
 
-const currentInnerRadius = outerRadius * 0.625;
+const innerRadius = outerRadius * 0.625;
 const widgetIndicator = createSVG("line", {
   id: "widget-indicator",
   x1: centerX,
-  y1: centerY - currentInnerRadius * 0.85,
+  y1: centerY - innerRadius * 0.85,
   x2: centerX,
   y2: centerY - outerRadius * 1.05,
 });
-if (svg) {
-  svg.appendChild(widgetIndicator);
-}
+svg.appendChild(widgetIndicator);
 
 animate();
 
 window.addEventListener(
   "wheel",
   (e) => {
-    const charPage = document.getElementById("page-characters");
-    if (charPage && !charPage.classList.contains("hidden")) {
+    // Only prevent default and rotate widget if characters page is active
+    const activeBtn = document.querySelector(".nav-btn.active");
+    const activePage = activeBtn ? activeBtn.getAttribute("data-page") : "";
+
+    if (activePage === "characters") {
       e.preventDefault();
       const delta = e.deltaY * 0.05;
       targetIndicatorRotation += delta;
@@ -214,11 +199,11 @@ const handleResize = () => {
   if (svg) svg.remove();
   createWidgetSpinner();
 
-  const currentInnerRadius = outerRadius * 0.625;
+  const innerRadius = outerRadius * 0.625;
   const widgetIndicator = createSVG("line", {
     id: "widget-indicator",
     x1: centerX,
-    y1: centerY - currentInnerRadius * 0.85,
+    y1: centerY - innerRadius * 0.85,
     x2: centerX,
     y2: centerY - outerRadius * 1.05,
   });
@@ -252,8 +237,104 @@ const setupNavigation = () => {
       if (targetPage === "characters") {
         handleResize();
       }
+
+      // Refresh ScrollTrigger calculations when tabs toggle
+      ScrollTrigger.refresh();
     });
   });
 };
 
+// Scroll Animations for Story Page
+const initScrollAnimations = () => {
+  // Animate text reveal (clip-path reveal on scroll)
+  document.querySelectorAll('#page-story .animate-text').forEach(textElement => {
+    textElement.setAttribute('data-text', textElement.textContent.trim());
+
+    ScrollTrigger.create({
+      trigger: textElement,
+      scroller: "#page-story",
+      start: 'top 75%',
+      end: 'bottom 45%',
+      scrub: 1,
+      onUpdate: self => {
+        const clipValue = Math.max(0, 100 - self.progress * 100);
+        textElement.style.setProperty('--clip-value', `${clipValue}%`);
+      },
+    });
+  });
+
+  // Realms slide-in from sides (Tartarus, Asphodel, Elysium, Styx)
+  ScrollTrigger.create({
+    trigger: '.realms-section',
+    scroller: '#page-story',
+    start: 'top bottom',
+    end: 'top top',
+    scrub: 1,
+    onUpdate: self => {
+      const panels = document.querySelectorAll('.realm-panel');
+      panels.forEach((panel, idx) => {
+        const direction = idx % 2 === 0 ? 1 : -1;
+        gsap.set(panel, { x: `${direction * (100 - self.progress * 100)}%` });
+      });
+    },
+  });
+
+  // Realms pin and scale down on scroll
+  ScrollTrigger.create({
+    trigger: '.realms-section',
+    scroller: '#page-story',
+    start: 'top top',
+    end: () => `+=${window.innerHeight * 2.0}`,
+    pin: true,
+    scrub: 1,
+    pinSpacing: true,
+    onUpdate: self => {
+      const panels = document.querySelectorAll('.realm-panel');
+      if (panels.length >= 4) {
+        if (self.progress <= 0.5) {
+          const yProgress = self.progress / 0.5;
+          gsap.set(panels[0], { y: `${yProgress * 150}%` });
+          gsap.set(panels[1], { y: `${yProgress * 50}%` });
+          gsap.set(panels[2], { y: `${yProgress * -50}%` });
+          gsap.set(panels[3], { y: `${yProgress * -150}%` });
+          panels.forEach(panel => gsap.set(panel, { scale: 1 }));
+        } else {
+          gsap.set(panels[0], { y: '150%' });
+          gsap.set(panels[1], { y: '50%' });
+          gsap.set(panels[2], { y: '-50%' });
+          gsap.set(panels[3], { y: '-150%' });
+
+          const scaleProgress = (self.progress - 0.5) / 0.5;
+          const minScale = window.innerWidth <= 1000 ? 0.4 : 0.22;
+          const scale = 1 - scaleProgress * (1 - minScale);
+
+          panels.forEach(panel => gsap.set(panel, { scale }));
+        }
+      }
+    },
+  });
+
+  // Animate story images (fade in and parallax slide)
+  document.querySelectorAll('#page-story .story-img-wrapper').forEach(imgWrapper => {
+    gsap.fromTo(imgWrapper, 
+      { 
+        opacity: 0, 
+        y: 60,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        scrollTrigger: {
+          trigger: imgWrapper,
+          scroller: "#page-story",
+          start: "top 90%",
+          end: "bottom 30%",
+          scrub: true,
+        }
+      }
+    );
+  });
+};
+
 setupNavigation();
+initScrollAnimations();
