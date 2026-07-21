@@ -328,12 +328,11 @@ img {
   align-items: center;
 }
 
-.realm-panel:nth-child(1),
-.realm-panel:nth-child(3) {
+.realm-panel:nth-child(odd) {
   transform: translateX(100%) translateY(0%);
 }
 
-.realm-panel:nth-child(2) {
+.realm-panel:nth-child(even) {
   transform: translateX(-100%) translateY(0%);
   z-index: 2;
 }
@@ -432,11 +431,11 @@ img {
   left: 50%;
   transform: translate(-50%, -50%);
   text-transform: uppercase;
-  font-size: 0.75rem;
-  font-weight: 500;
-  padding: 0.25rem 0.5rem;
-  background-color: var(--light);
-  border-radius: 0.125rem;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: red;
+  text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.8);
+  letter-spacing: 6px;
   z-index: 2;
 }
 
@@ -449,7 +448,7 @@ img {
 }
 
 #widget-indicator {
-  stroke: var(--light);
+  stroke: red;
   stroke-width: 3;
   stroke-linecap: round;
 }
@@ -540,4 +539,98 @@ img {
   .widget-preview-img img {
     object-position: center; /* Center on mobile since there is no left sidebar space */
   }
+
+  .story-grid-layout,
+  .story-grid-layout.reverse {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 3rem 1.5rem;
+    text-align: center;
+  }
+  
+  .story-grid-layout.reverse .story-text-col,
+  .story-grid-layout.reverse .story-img-col {
+    order: unset;
+  }
+
+  .story-img-wrapper {
+    width: 260px;
+    margin-top: 1rem;
+  }
+}
+
+/* Story Layout Styles */
+.story-grid-layout {
+  min-height: 100vh;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 4rem;
+  align-items: center;
+  padding: 6rem;
+  position: relative;
+}
+
+.story-grid-layout.reverse {
+  grid-template-columns: 0.8fr 1.2fr;
+}
+
+.story-grid-layout.reverse .story-text-col {
+  order: 2;
+}
+
+.story-grid-layout.reverse .story-img-col {
+  order: 1;
+}
+
+.story-text-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.story-img-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.story-img-wrapper {
+  position: relative;
+  width: 320px;
+  aspect-ratio: 5/7;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 43, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  background-color: var(--dark);
+  transition: border-color 0.3s ease;
+  will-change: transform;
+}
+
+.story-img-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.4) 100%);
+  pointer-events: none;
+}
+
+.story-img-wrapper:hover {
+  border-color: var(--light);
+}
+
+.story-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.story-img-wrapper:hover img {
+  transform: scale(1.08);
 }

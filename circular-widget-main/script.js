@@ -37,11 +37,11 @@ let lastSegmentIndex = -1;
 
 const createWidgetSpinner = () => {
   const container = document.querySelector(".widgets");
-  const viewportSize = Math.min(window.innerWidth, window.innerHeight);
+  const viewportSize = Math.min(container.clientWidth, container.clientHeight);
   outerRadius = viewportSize * 0.4;
   const innerRadius = viewportSize * 0.25;
-  centerX = window.innerWidth / 2;
-  centerY = window.innerHeight / 2;
+  centerX = container.clientWidth / 2;
+  centerY = container.clientHeight / 2;
 
   svg = createSVG("svg", { id: "widget-svg" });
   const defs = createSVG("defs");
@@ -263,7 +263,7 @@ const initScrollAnimations = () => {
     });
   });
 
-  // Realms slide-in from sides (Tartarus, Asphodel, Elysium)
+  // Realms slide-in from sides (Tartarus, Asphodel, Elysium, Styx)
   ScrollTrigger.create({
     trigger: '.realms-section',
     scroller: '#page-story',
@@ -272,11 +272,10 @@ const initScrollAnimations = () => {
     scrub: 1,
     onUpdate: self => {
       const panels = document.querySelectorAll('.realm-panel');
-      if (panels.length >= 3) {
-        gsap.set(panels[0], { x: `${100 - self.progress * 100}%` });
-        gsap.set(panels[1], { x: `${-100 + self.progress * 100}%` });
-        gsap.set(panels[2], { x: `${100 - self.progress * 100}%` });
-      }
+      panels.forEach((panel, idx) => {
+        const direction = idx % 2 === 0 ? 1 : -1;
+        gsap.set(panel, { x: `${direction * (100 - self.progress * 100)}%` });
+      });
     },
   });
 
@@ -285,30 +284,55 @@ const initScrollAnimations = () => {
     trigger: '.realms-section',
     scroller: '#page-story',
     start: 'top top',
-    end: () => `+=${window.innerHeight * 1.5}`,
+    end: () => `+=${window.innerHeight * 2.0}`,
     pin: true,
     scrub: 1,
     pinSpacing: true,
     onUpdate: self => {
       const panels = document.querySelectorAll('.realm-panel');
-      if (panels.length >= 3) {
+      if (panels.length >= 4) {
         if (self.progress <= 0.5) {
           const yProgress = self.progress / 0.5;
-          gsap.set(panels[0], { y: `${yProgress * 100}%` });
-          gsap.set(panels[2], { y: `${yProgress * -100}%` });
-          gsap.set(panels[1], { scale: 1 });
+          gsap.set(panels[0], { y: `${yProgress * 150}%` });
+          gsap.set(panels[1], { y: `${yProgress * 50}%` });
+          gsap.set(panels[2], { y: `${yProgress * -50}%` });
+          gsap.set(panels[3], { y: `${yProgress * -150}%` });
+          panels.forEach(panel => gsap.set(panel, { scale: 1 }));
         } else {
-          gsap.set(panels[0], { y: '100%' });
-          gsap.set(panels[2], { y: '-100%' });
+          gsap.set(panels[0], { y: '150%' });
+          gsap.set(panels[1], { y: '50%' });
+          gsap.set(panels[2], { y: '-50%' });
+          gsap.set(panels[3], { y: '-150%' });
 
           const scaleProgress = (self.progress - 0.5) / 0.5;
-          const minScale = window.innerWidth <= 1000 ? 0.45 : 0.25;
+          const minScale = window.innerWidth <= 1000 ? 0.4 : 0.22;
           const scale = 1 - scaleProgress * (1 - minScale);
 
           panels.forEach(panel => gsap.set(panel, { scale }));
         }
       }
     },
+  });
+
+  // Animate story images (fade in and parallax slide)
+  document.querySelectorAll('#page-story .story-img-wrapper').forEach(imgWrapper => {
+    gsap.fromTo(imgWrapper, 
+      { 
+        opacity: 0, 
+        y: 60,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        scrollTrigger: {
+          trigger: imgWrapper,
+          scroller: "#page-story",
+          start: "top 90%",
+          end: "bottom 30%",
+          scrub: true,
+        }
+      }
+    );
   });
 };
 
