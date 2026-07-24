@@ -166,15 +166,43 @@ const animate = () => {
   requestAnimationFrame(animate);
 };
 
-const innerRadius = outerRadius * 0.625;
-const widgetIndicator = createSVG("line", {
-  id: "widget-indicator",
-  x1: centerX,
-  y1: centerY - innerRadius * 0.85,
-  x2: centerX,
-  y2: centerY - outerRadius * 1.05,
-});
-svg.appendChild(widgetIndicator);
+const createFancierIndicator = () => {
+  const currentInnerRadius = outerRadius * 0.625;
+  const indicatorGroup = createSVG("g", { id: "widget-indicator" });
+
+  const line = createSVG("line", {
+    x1: centerX,
+    y1: centerY - currentInnerRadius * 0.85,
+    x2: centerX,
+    y2: centerY - outerRadius * 1.05,
+    stroke: "red",
+    "stroke-width": "3",
+    "stroke-linecap": "round",
+    style: "filter: drop-shadow(0px 0px 6px red);"
+  });
+
+  const tip = createSVG("polygon", {
+    points: `${centerX},${centerY - outerRadius * 1.08} ${centerX - 7},${centerY - outerRadius * 1.02} ${centerX + 7},${centerY - outerRadius * 1.02}`,
+    fill: "red",
+    style: "filter: drop-shadow(0px 0px 8px red);"
+  });
+
+  const baseDiamond = createSVG("polygon", {
+    points: `${centerX},${centerY - currentInnerRadius * 0.85 - 8} ${centerX + 6},${centerY - currentInnerRadius * 0.85} ${centerX},${centerY - currentInnerRadius * 0.85 + 8} ${centerX - 6},${centerY - currentInnerRadius * 0.85}`,
+    fill: "#111",
+    stroke: "red",
+    "stroke-width": "2",
+    style: "filter: drop-shadow(0px 0px 5px red);"
+  });
+
+  indicatorGroup.appendChild(line);
+  indicatorGroup.appendChild(tip);
+  indicatorGroup.appendChild(baseDiamond);
+  
+  return indicatorGroup;
+};
+
+svg.appendChild(createFancierIndicator());
 
 animate();
 
@@ -199,16 +227,8 @@ const handleResize = () => {
   if (svg) svg.remove();
   createWidgetSpinner();
 
-  const innerRadius = outerRadius * 0.625;
-  const widgetIndicator = createSVG("line", {
-    id: "widget-indicator",
-    x1: centerX,
-    y1: centerY - innerRadius * 0.85,
-    x2: centerX,
-    y2: centerY - outerRadius * 1.05,
-  });
   if (svg) {
-    svg.appendChild(widgetIndicator);
+    svg.appendChild(createFancierIndicator());
   }
 };
 
