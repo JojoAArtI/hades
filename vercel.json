@@ -1,0 +1,5 @@
+{
+  "buildCommand": "cd circular-widget-main && npm install && npm run build",
+  "outputDirectory": "circular-widget-main/dist",
+  "framework": "vite"
+}
